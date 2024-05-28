@@ -8,7 +8,7 @@ spring:
       discovery:
         locator:
           enabled: false
-          lower-case-service-id: false
+          lower-case-service-id: true
 
 management:
   endpoints:
@@ -40,4 +40,4 @@ logging:
   level:
     com:
       eazybytes:
-        gatewayserver: DEBUG
+        gatewayserver: INFO

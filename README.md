@@ -88,10 +88,26 @@
             locator:
               enabled: false
 
-    and also setting , lower-case-service-id: false  because we want microservices name in capital letters
-
 ### AddResponseHeader in the filter
     to track the response time of gateway server from microservices, we have added a addResponseHeader to track time.
     we can check it in the API response headers section.
 
     like the addResponseHeader, we can add many numbers of filter in the filter section of customRoute bean
+
+
+### Section :: 9.3 ::  Implementing Cross cutting concerns for tracing and logging using Gateway Server
+
+    Business need or use case:
+
+        Like a request comes into gateway server, and gateway server to account microservices, and account microservices
+        to cards and loans microservices. and response back in the reverse order
+
+        So, we will set a co-relation id from gateway server and pass it to microservices, and from returning back the response,
+        the same co-relation id will be back in the response header.
+        
+        So, if there any issue or problem, we can track with the co-relation id from which microservices it is not returning
+        and creating issues.
+
+        we will also implement some logging concept here.
+
+    We should change in the microservices like: accounts, cards microservices too, to accept the request header from gatewayservice
