@@ -7,8 +7,8 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true
-          lower-case-service-id: true
+          enabled: false
+          lower-case-service-id: false
 
 management:
   endpoints:
