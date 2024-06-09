@@ -196,4 +196,17 @@
 
 
     *** Retry Pattern ***
+    Here are some key components and considerations of implementing retry patterns in Microservices
+
+    1. Retry Logic : it is just a mechanism for retry. Determine when and how many times to retry
     
+    2. Backoff strategies : it is a strategy when to run retry, suppose, the first retry attempt is done in 2seconds, then
+    the second retry attempt will be done gradually , not like static 2seconds later, it will observer and run after 4seconds
+    or as needs.
+    
+    3. Circuit breaker integration : we can add circuit breaker in retry patterns, like after some retry it will handle by circuit
+    breaker pattern to maintain proper resiliency.
+    
+    4. Idempotent operation : We should make sure the retry operation not do any side effects while retrying.
+    like ,  calling get api won't do anything in retry patterns' but calling post/put/delete api in retry patterns
+    can cause multiple operation or side effects in Database.
