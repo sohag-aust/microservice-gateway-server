@@ -193,3 +193,7 @@
 
     this timeout will be applicable for loans and cards microservices. it won't be applicable for the account microservices
     because, the account microservices has attached the circuit breaker logic, which has default http timeout configurations
+
+
+    *** Retry Pattern ***
+    ![alt text](https://github.com/[sohag-aust]/[microservice-gateway-server]/blob/[section-10_3/resiliency_implement_retry_pattern_in_Gateway_server]/retry_pattern.png?raw=true)
