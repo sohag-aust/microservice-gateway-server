@@ -113,7 +113,25 @@
     We should change in the microservices like: accounts, cards microservices too, to accept the request header from gatewayservice
 
 
-### Section - 10 : Resiliency Patterns :: Circuit Breaker Pattern | Retry Pattern | Rate Limiter Pattern
+### Section - 10 : Resiliency (স্বাভাবিক অবস্থায় প্রত্যাবর্তন) Patterns :: Circuit Breaker Pattern | Retry Pattern | Rate Limiter Pattern
+
+    ?? What is Resiliency ??
+
+    => Resiliency in microservice architecture refers to the system's ability to gracefully handle and recover from 
+    failures or disruptions without causing significant downtime or data loss. 
+    Essentially, it's about designing systems that can continue to operate even when individual components fail.
+
+    ** Example ::
+    A real-life example of resiliency in microservice architecture could be seen in an e-commerce platform like Amazon. 
+    Imagine you're browsing their website and adding items to your cart. 
+    Behind the scenes, Amazon's platform is composed of numerous microservices responsible for various functions such as inventory management, 
+    payment processing, order fulfillment, and recommendation engines.
+
+    Now, let's say one of the microservices responsible for processing payments experiences a temporary outage due to high traffic 
+    or a software bug. In a resilient microservice architecture, this failure would ideally be isolated to just the payment processing service, 
+    and the rest of the system would continue to function normally. Customers can still browse products, add items to their carts, 
+    and even place orders using alternative payment methods or saved payment information.
+
 
     *** Circuit breaker pattern using resiliency 4J ***
 
