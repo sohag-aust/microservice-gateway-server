@@ -111,3 +111,49 @@
         we will also implement some logging concept here.
 
     We should change in the microservices like: accounts, cards microservices too, to accept the request header from gatewayservice
+
+
+### Section - 10 : Circuit Breaker Pattern | Retry Pattern | Rate Limiter Pattern
+
+    *** Circuit breaker pattern using resiliency 4J ***
+
+    1. slidingWindowSize: This parameter defines the size of the sliding window used by the circuit breaker to monitor 
+    the success or failure of calls. In this case, it's set to 10, meaning the circuit breaker will consider 
+    the last 10 calls when evaluating whether to trip open from closed.
+
+    2. permittedNumberOfCallsInHalfOpenState: This parameter sets the maximum number of permitted calls when the circuit breaker 
+    is in the half-open state. The half-open state is entered after the circuit breaker has been in the open state for a certain duration. 
+    In this case, it's set to 2, meaning that only 2 calls will be allowed through the circuit breaker when it's in the half-open state.
+
+    3. failureRateThreshold: This parameter determines the threshold for the failure rate at which the circuit breaker will trip open. 
+    It's set to 50, meaning if the failure rate (percentage of failed calls) exceeds 50% within the sliding window, the circuit breaker will open.
+
+    4. waitDurationInOpenState: This parameter specifies the duration for which the circuit breaker will remain in the open state 
+    before transitioning to the half-open state and allowing calls to pass through again. It's set to 10000 milliseconds (10 seconds), 
+    meaning the circuit breaker will stay open for 10 seconds before attempting to half-open.
+
+
+    # Check cirtcuitBreaker in actuator endpoint : http://localhost:8072/actuator/circuitbreakers
+    # Hit accounts api for more information of cirtcuitBreaker : http://localhost:8072/eazybank/accounts/api/contact-info
+    # Check circuitBreaker event of accountsCircuitBreaker : http://localhost:8072/actuator/circuitbreakerevents?name=accountsCircuitBreaker
+    
+    
+    *** Check cirtcuitBreaker is working fine for account microservices ***
+    1. As we are looking for /api/contact-info api in account microservice. so putting a debugger on that api and don't release the debugger 
+    from response on that api. and run the account microservices in debug mode
+
+    2. the hit the api : http://localhost:8072/eazybank/accounts/api/contact-info
+
+    3. Looking into this api : http://localhost:8072/actuator/circuitbreakerevents?name=accountsCircuitBreaker
+    for checking the events
+
+    4. Looking into this api : http://localhost:8072/actuator/circuitbreakers
+    for checking the states
+
+    5. The postman response will be 504 , which is gateway timeout, as firstly the circuit breaker is closed
+    6. after that the postman api response will be 503, which is account microservice is unavailable as the circuit breaker
+    is opened
+
+    7. wait 10 seconds , then hit the api : http://localhost:8072/eazybank/accounts/api/contact-info
+    again, then we can see postman response is 504 , which is gateway timeout again, because the circuit breaker will be in
+    half-open state as per config, where we mention 10sec in open state : waitDurationInOpenState: 10000

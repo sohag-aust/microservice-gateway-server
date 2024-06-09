@@ -17,18 +17,22 @@ public class DynamicRouteConfig {
                 .route(p -> p
                         .path(Const.DynamicPath.ACCOUNTS)
                         .filters( f -> f.rewritePath(Const.RewritePath.ACCOUNTS_REWRITE_PATH,"/${segment}")
-                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
-                        .uri(Const.LoadBalanced.ACCOUNTS_LB))
+                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                                .circuitBreaker(config -> config.setName(Const.CircuitBreakerNames.ACCOUNTS_CIRCUIT_BREAKER))
+                        )
+                        .uri(Const.LoadBalancedPredicates.ACCOUNTS_LB))
                 .route(p -> p
                         .path(Const.DynamicPath.LOANS)
                         .filters( f -> f.rewritePath(Const.RewritePath.LOANS_REWRITE_PATH,"/${segment}")
-                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
-                        .uri(Const.LoadBalanced.LOANS_LB))
+                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                        )
+                        .uri(Const.LoadBalancedPredicates.LOANS_LB))
                 .route(p -> p
                         .path(Const.DynamicPath.CARDS)
                         .filters( f -> f.rewritePath(Const.RewritePath.CARDS_REWRITE_PATH,"/${segment}")
-                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
-                        .uri(Const.LoadBalanced.CARDS_LB))
+                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                        )
+                        .uri(Const.LoadBalancedPredicates.CARDS_LB))
                 .build();
     }
 }

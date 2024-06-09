@@ -41,3 +41,12 @@ logging:
     com:
       eazybytes:
         gatewayserver: INFO
+
+# Circuit Breaker Configs
+resilience4j.circuitbreaker:
+  configs:
+    default: # default means this circuit breaker config will applicable for all circuit breakers, like : accountsCircuitBreaker, cardsCircuitBreaker, loansCircuitBreaker
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 2
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000
