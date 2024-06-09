@@ -196,4 +196,4 @@
 
 
     *** Retry Pattern ***
-    ![retry_pattern](https://github.com/sohag-aust/microservice-gateway-server/assets/45502549/e82fb01b-0df1-4259-804d-7006799bfb69)
+    
