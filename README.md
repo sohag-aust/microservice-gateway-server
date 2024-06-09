@@ -196,4 +196,4 @@
 
 
     *** Retry Pattern ***
-    ![alt text](https://github.com/sohag-aust/microservice-gateway-server/blob/section-10_3/resiliency_implement_retry_pattern_in_Gateway_server/retry_pattern.png?raw=true)
+    ![retry_pattern](https://github.com/sohag-aust/microservice-gateway-server/assets/45502549/e82fb01b-0df1-4259-804d-7006799bfb69)
