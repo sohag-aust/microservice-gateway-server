@@ -224,6 +224,7 @@
 
 
     *** Adding Retry pattern in gateway server for loans microservice ***
+
     1. set retry with backoff config for loans microservice
     2. start the gateway server,
     3. put log in the /contact-info api in loans microservice
