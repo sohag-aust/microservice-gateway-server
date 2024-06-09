@@ -165,3 +165,13 @@
     which is not good
 
     2. So we are implementing the fallback mechanism to send a custom error message
+
+
+    *** Setting http connection timeout and response timeout ***
+    1. Inside the application.yml file, setting http connection timeout and response timeout configuration
+    httpclient:
+        connect-timeout: 1000
+        response-timeout: 2s
+
+    this timeout will be applicable for loans and cards microservices. it won't be applicable for the account microservices
+    because, the account microservices has attached the circuit breaker logic, which has default http timeout configurations
