@@ -18,7 +18,11 @@ public class DynamicRouteConfig {
                         .path(Const.DynamicPath.ACCOUNTS)
                         .filters( f -> f.rewritePath(Const.RewritePath.ACCOUNTS_REWRITE_PATH,"/${segment}")
                                 .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
-                                .circuitBreaker(config -> config.setName(Const.CircuitBreakerNames.ACCOUNTS_CIRCUIT_BREAKER))
+                                .circuitBreaker(
+                                        config -> config
+                                                .setName(Const.CircuitBreakerNames.ACCOUNTS_CIRCUIT_BREAKER)
+//                                                .setFallbackUri("forward:/contactSupport")
+                                )
                         )
                         .uri(Const.LoadBalancedPredicates.ACCOUNTS_LB))
                 .route(p -> p

@@ -157,3 +157,11 @@
     7. wait 10 seconds , then hit the api : http://localhost:8072/eazybank/accounts/api/contact-info
     again, then we can see postman response is 504 , which is gateway timeout again, because the circuit breaker will be in
     half-open state as per config, where we mention 10sec in open state : waitDurationInOpenState: 10000
+
+    8. If we want to see the response from account microservice, we just need to release the break point
+
+    *** Adding the FallBack mechanism to send a custom error message ***
+    1. without the fallback functionality, we are getting some 504 / 503 error codes, and long error messages,
+    which is not good
+
+    2. So we are implementing the fallback mechanism to send a custom error message
