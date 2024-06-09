@@ -113,7 +113,7 @@
     We should change in the microservices like: accounts, cards microservices too, to accept the request header from gatewayservice
 
 
-### Section - 10 : Circuit Breaker Pattern | Retry Pattern | Rate Limiter Pattern
+### Section - 10 : Resiliency Patterns :: Circuit Breaker Pattern | Retry Pattern | Rate Limiter Pattern
 
     *** Circuit breaker pattern using resiliency 4J ***
 
