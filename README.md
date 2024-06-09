@@ -133,6 +133,17 @@
     and even place orders using alternative payment methods or saved payment information.
 
 
+    ??? Fault Tolerant ???
+    => Fault tolerance is the ability of a system to maintain proper operation in the event of failures or faults in one or more of its components.
+
+
+    ??? Resiliency vs Fault tolerance ???
+
+    Fault tolerance focuses on the system's ability to continue operating properly in the presence of faults or failures, such as hardware failures, software bugs, or network issues.
+    whereas,
+    Resiliency is a broader concept that encompasses not only the ability to tolerate faults but also the system's ability to recover quickly and continue operating in the face of disruptions or adversities.
+
+
     *** Circuit breaker pattern using resiliency 4J ***
 
     1. slidingWindowSize: This parameter defines the size of the sliding window used by the circuit breaker to monitor 
@@ -210,3 +221,13 @@
     4. Idempotent operation : We should make sure the retry operation not do any side effects while retrying.
     like ,  calling get api won't do anything in retry patterns' but calling post/put/delete api in retry patterns
     can cause multiple operation or side effects in Database.
+
+
+    *** Adding Retry pattern in gateway server for loans microservice ***
+    1. set retry with backoff config for loans microservice
+    2. start the gateway server,
+    3. put log in the /contact-info api in loans microservice
+    4. runs the loans microservice in debug mode
+    5. hit loans microservice contact info api via gateway server
+    6. when debugger is hit, remove debugger red button and resume application
+    7. and look into the logs section, we can see in the meantime retry mechanism happend and logs will be appeared
