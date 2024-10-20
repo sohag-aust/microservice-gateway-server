@@ -232,3 +232,79 @@
     5. hit loans microservice contact info api via gateway server
     6. when debugger is hit, remove debugger red button and resume application
     7. and look into the logs section, we can see in the meantime retry mechanism happend and logs will be appeared
+
+# Section - 10_5 : Redis RateLimiter
+    topics to be remember:
+        1. ReplenishRate : Replenish(পুনরায় পূরণ করা) | 
+            Definition: This controls how many tokens are added to the bucket per second (i.e., the rate at which new tokens are generated).
+            Behavior: If replenishRate is set to 10, it means 10 tokens are added to the bucket every second, 
+                    allowing the client to make 10 requests per second.
+            Analogy: Think of it as how fast the bucket refills. If the bucket has run out of tokens (i.e., the client has made many requests), 
+                    this value determines how long the client must wait before being allowed to make more requests.
+    
+        2. BurstCapacity :
+            Definition: This is the maximum number of tokens that can be stored in the bucket (the bucket’s capacity). 
+                        It allows a burst of requests to be handled.
+            Behavior: If burstCapacity is 20, this means the bucket can hold up to 20 tokens at any given time, 
+                    allowing a burst of 20 requests to be processed instantly, as long as tokens are available.
+            Analogy: The size of the bucket. A larger burstCapacity allows the system to handle a short burst of traffic above the replenishRate, 
+                    but the bucket will empty out if requests keep coming in at a faster rate than tokens are replenished.
+
+        3. DefaultRequestedTokens :
+            Definition: This controls how many tokens are "consumed" or deducted from the bucket for each request by default. 
+                        Each request can consume one or more tokens, depending on the configuration.
+            Behavior: If defaultRequestedTokens is 1, then each request consumes 1 token. 
+                        If it is set to 5, each request would consume 5 tokens from the bucket.
+            Analogy: If each request is "expensive" or requires more resources, you might want each request to consume more tokens, 
+                    so fewer requests are allowed within a given time.
+
+
+    => to configure redis ratelimiter do following tasks
+
+    1. add maven dependency
+
+        <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+		</dependency>
+    
+    2. then add beans for rateLimit config and keyResolver config
+
+    3. then, run docker container for redis
+        docker run -p 6379:6379 --name eazyredis -d redis
+
+    4. add, the below configs in application.yml
+
+          data:
+            redis:
+              connect-timeout: 2s
+              host: localhost
+              port: 6379
+              timeout: 1s
+
+    as we add the ratelimiter in the cards-microservice section, now need to test the requests
+
+    firstly, install apache-benchmark software to see the whole details of rate-limiter
+
+    sudo apt install apache2-utils
+    then try => ab -V command to check benchmark version
+
+    now check cards microservice via gateway service ::=>:: ab -n 10 -c 2 -v 3 http://localhost:8072/eazybank/cards/api/contact-info
+
+    explanation : 
+    ab: This is the Apache Benchmark tool itself, used to measure the performance of web servers.
+
+    -n 10: This specifies the total number of requests to be sent to the server. In this case, 10 requests will be made to http://localhost:8072/eazybank/cards/api/contact-info.
+    
+    -c 2: This specifies the number of concurrent requests to be made at the same time. Here, 2 requests will be sent to the server concurrently.
+    
+    -v 3: This controls the verbosity level of the output. The verbosity level 3 provides more detailed information about what Apache Benchmark is doing. Higher verbosity levels give more detailed output, such as request headers, response headers, and other debug information.
+    
+    Verbosity levels:
+    
+    -v 1: Display results.
+    -v 2: Display warnings.
+    -v 3: Display request headers and response codes (detailed output).
+    http://localhost:8072/eazybank/cards/api/contact-info: This is the URL that Apache Benchmark will be testing. In this case, it's sending requests to http://localhost:8072/eazybank/cards/api/contact-info, which is running locally on port 8072.
+    
+        

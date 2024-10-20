@@ -1,11 +1,14 @@
 package com.apigateway.gatewayserver.config;
 
 import com.apigateway.gatewayserver.utils.Const;
+import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
+import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -40,8 +43,26 @@ public class DynamicRouteConfig {
                         .path(Const.DynamicPath.CARDS)
                         .filters( f -> f.rewritePath(Const.RewritePath.CARDS_REWRITE_PATH,"/${segment}")
                                 .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                                .requestRateLimiter(
+                                        config ->
+                                                config
+                                                        .setRateLimiter(redisRateLimiter())
+                                                        .setKeyResolver(userKeyResolver())
+                                )
                         )
                         .uri(Const.LoadBalancedPredicates.CARDS_LB))
                 .build();
+    }
+
+    // it is using Token-Bucket Algorithm
+    @Bean
+    public RedisRateLimiter redisRateLimiter() {
+        return new RedisRateLimiter(2, 4, 1);
+    }
+
+    @Bean
+    public KeyResolver userKeyResolver() {
+        return exchange -> Mono.justOrEmpty(exchange.getRequest().getHeaders().getFirst("user"))
+                .defaultIfEmpty("anonymous");
     }
 }
