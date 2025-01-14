@@ -39,6 +39,9 @@ management:
         enabled: true
     gateway:
       enabled: true
+  metrics: # this is for telling micrometer and prometheus to group all the matrix of this application under an application name, so we can easily understand which matrix is used for which microservice
+    tags:
+      application: ${spring.application.name}
 
 info:
   app:
