@@ -55,6 +55,9 @@ logging:
       eazybytes:
         gatewayserver: INFO
 
+  pattern: # for distributed tracing [tags, traceId, spanId]
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
+
 # Circuit Breaker Configs
 resilience4j.circuitbreaker:
   configs:
