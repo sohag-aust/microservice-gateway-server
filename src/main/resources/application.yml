@@ -49,6 +49,18 @@ info:
     description: "Eazy Bank Gateway Server Application"
     version: "1.0.0"
 
+#opentelemetry:
+#  exporter:
+#    otlp:
+#      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4317}
+#  resource:
+#    attributes:
+#      service.name: ${spring.application.name}
+#      service.namespace: ${spring.application.name} # Optional, but good practice
+
+#tracing:
+#  url: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4317/v1/traces}
+
 logging:
   level:
     com:
