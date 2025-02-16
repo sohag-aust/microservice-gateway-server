@@ -9,18 +9,6 @@ EXPOSE 8072
 RUN apt-get update \
     && apt-get install -y jq
 
-# Install curl
-#RUN apt-get update && apt-get install -y curl
-#
-## Create a directory for OpenTelemetry
-#RUN mkdir -p /otel
-#
-## Download OpenTelemetry Java Agent during build
-#RUN curl -L -o /otel/opentelemetry-javaagent.jar https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v2.11.0/opentelemetry-javaagent.jar
-#
-## Set the environment variable
-#ENV JAVA_TOOL_OPTIONS="-javaagent:/otel/opentelemetry-javaagent.jar"
-
 # Add the application's jar to the image
 COPY target/gatewayserver-0.0.1-SNAPSHOT.jar gatewayserver-0.0.1-SNAPSHOT.jar
 
