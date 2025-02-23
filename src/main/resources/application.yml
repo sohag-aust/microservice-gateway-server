@@ -42,6 +42,12 @@ management:
   metrics: # this is for telling micrometer and prometheus to group all the matrix of this application under an application name, so we can easily understand which matrix is used for which microservice
     tags:
       application: ${spring.application.name}
+  tracing:
+    sampling:
+      probability: 1.0
+
+tracing:
+  url: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4318/v1/traces}
 
 info:
   app:
@@ -56,7 +62,7 @@ logging:
         gatewayserver: INFO
 
   pattern: # for distributed tracing [tags, traceId, spanId]
-    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
+    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
 
 # Circuit Breaker Configs
 resilience4j.circuitbreaker:
